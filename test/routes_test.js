@@ -222,13 +222,13 @@ describe('forex_api_test_suite', (done) => {
 		.post('/currency')
 		.type('json')
 		.send({
-			'alias': 'usa',
-			'name': 'United States Dollar',
+			'alias': 'canada',
+			'name': 'Canadian Dollar',
 			'ex': {
-			  'peso': 50.73,
-			  'won': 1187.24,
-			  'yen': 108.63,
-			  'yuan': 7.03
+			  'peso': 41.07,
+			  'won': 952.88,
+			  'yen': 91.97,
+			  'yuan': 5.17
 			}
 		})
 		.end((err, res) => {
@@ -239,7 +239,17 @@ describe('forex_api_test_suite', (done) => {
 	it('POST /currency endpoint is running', (done) => {
 		chai.request(domain)
 		.post('/currency')
-		.send()
+        .type('json')
+		.send({
+            'alias': 'test',
+			'name': 'test',
+			'ex': {
+			  'peso': 0,
+			  'won': 0,
+			  'yen': 0,
+			  'yuan': 0
+			}
+        })
 		.end((error, res) => {
 			expect(res.status).to.equal(200);
 			done();

@@ -63,15 +63,18 @@ module.exports = (app) => {
                 'Error': 'Bad request - alias has a duplicate value'
             })
 		}
-		const noDuplicate = new Set(exchangeRates.map((d)=> {d.alias, d.name, d.ex}));
-		if(noDuplicate && !req.body.hasOwnProperty('alias', 'name', 'ex').length == 0){
-			return res.status(200).send({
-                'Message': 'Fields are complete'
-            })
+		const noDuplicate = new Set(exchangeRates.map(d=> {d.alias, d.name, d.ex}));
+		if(!noDuplicate && !req.body.hasOwnProperty('alias', 'name', 'ex').length == 0){
+                return res.status(200).send({
+                    'Message': 'Fields are complete'
+                })
 		}
-			return res.status(200).send({
+        if(req.body.hasOwnProperty('alias', 'name', 'ex')){
+            return res.status(200).send({
 				'Message': 'Route is running'
 			})
+
+        }
 		
 	})
 

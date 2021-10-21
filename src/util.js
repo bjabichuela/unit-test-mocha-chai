@@ -42,12 +42,12 @@ const exchangeRates = {
       	}
 };
 
-function exchange(baseCurrency, targetCurrency, amount){
-	return exchangeRates[baseCurrency].ex[targetCurrency] * amount;
-}
+// function exchange(baseCurrency, targetCurrency, amount){
+// 	return exchangeRates[baseCurrency].ex[targetCurrency] * amount;
+// }
 
 
 module.exports = {
 	exchangeRates: exchangeRates,
-	exchange: exchange
+	// exchange: exchange
 }
