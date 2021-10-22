@@ -10,8 +10,8 @@ module.exports = (app) => {
 	})
 
 	app.post('/currency', (req, res) => {
-		//create if conditions here to check the currency	
-
+		//create if conditions here to check the currency
+	
 		if(!req.body.hasOwnProperty('name')){
             return res.status(400).send({
                 'Error': 'Bad request - missing required parameter name'
@@ -57,27 +57,20 @@ module.exports = (app) => {
                 'Error': 'Bad request - alias is empty'
             })
         }
-		const unique = new Set(exchangeRates.map(v => v.alias));
-		if(!unique && !req.body.hasOwnProperty('alias', 'name', 'ex').length == 0){
+        const noDuplicate = new Set(exchangeRates.filter((value, index, self) => self.indexOf(value) === index));
+		if(!noDuplicate && !req.body.hasOwnProperty('alias', 'name', 'ex').length == 0){
 			return res.status(400).send({
                 'Error': 'Bad request - alias has a duplicate value'
             })
 		}
-		const noDuplicate = new Set(exchangeRates.map(d=> {d.alias, d.name, d.ex}));
-		if(!noDuplicate && !req.body.hasOwnProperty('alias', 'name', 'ex').length == 0){
+		if(noDuplicate && req.body.hasOwnProperty('name', 'ex')){
                 return res.status(200).send({
                     'Message': 'Fields are complete'
                 })
 		}
-        if(req.body.hasOwnProperty('alias', 'name', 'ex')){
             return res.status(200).send({
-				'Message': 'Route is running'
-			})
-
-        }
-		
+                'Message': 'Route is running'
+            })		
 	})
-
-
 }
 

@@ -3,7 +3,7 @@ const expect = chai.expect;
 const http = require('chai-http');
 chai.use(http);
 
-describe('forex_api_test_suite', (done) => {
+describe('forex_api_test_suite', () => {
 	//add the solutions here
 	const domain = 'http://localhost:5001';
 
@@ -26,46 +26,49 @@ describe('forex_api_test_suite', (done) => {
             done();
         })
     })
-
+	// 2
 	it('POST /currency endpoint name is missing', (done) => {
         chai.request(domain)
         .post('/currency')
         .type('json')
         .send({
-			'alias': 'china',
-			'ex': {
-				'peso': 7.21,
-				'usd': 0.14,
-				'won': 168.85,
-				'yen': 15.45
-			  }
+			'yuan': {
+				'name': '',
+				'ex': {
+				  'peso': 7.21,
+				  'usd': 0.14,
+				  'won': 168.85,
+				  'yen': 15.45
+				}
+		  }
         })
         .end((err, res) => {
             expect(res.status).to.equal(400);
             done();
         })
     })
-
+	// 3
 	it('POST /currency endpoint name is not a string', (done) => {
         chai.request(domain)
         .post('/currency')
         .type('json')
         .send({
-			'alias': 'china',
-			'name': 0,
-			'ex': {
-				'peso': 7.21,
-				'usd': 0.14,
-				'won': 168.85,
-				'yen': 15.45
-			  }
+			'yuan': {
+				'name': 0,
+				'ex': {
+				  'peso': 7.21,
+				  'usd': 0.14,
+				  'won': 168.85,
+				  'yen': 15.45
+				}
+		  }
         })
         .end((err, res) => {
             expect(res.status).to.equal(400);
             done();
         })
     })
-
+	// 4
 	it('POST /currency endpoint name is empty', (done) => {
         chai.request(domain)
         .post('/currency')
@@ -85,57 +88,59 @@ describe('forex_api_test_suite', (done) => {
             done();
         })
     })
-
+	// 5
 	it('POST /currency endpoint ex is missing', (done) => {
         chai.request(domain)
         .post('/currency')
         .type('json')
         .send({
-			'alias': 'china',
-			'name': 'Chinese Yuan'
-
+			'won': {
+				'name': 'South Korean Won',
+		  	}
         })
         .end((err, res) => {
             expect(res.status).to.equal(400);
             done();
         })
     })
-
+	// 6
 	it('POST /currency endpoint ex is not an object', (done) => {
         chai.request(domain)
         .post('/currency')
         .type('json')
         .send({
-			'alias': 'china',
-			'name': 0,
-			'ex': [{
-				'peso': 7.21,
-				'usd': 0.14,
-				'won': 168.85,
-				'yen': 15.45
-			}]
+			'yen': {
+				'name': 'Japanese Yen',
+				'ex': [{
+				  'peso': 0.47,
+				  'usd': 0.0092,
+				  'won': 10.93,
+				  'yuan': 0.065
+				}]
+			}
         })
         .end((err, res) => {
             expect(res.status).to.equal(400);
             done();
         })
     })
-
+	// 7
 	it('POST /currency endpoint ex is empty', (done) => {
         chai.request(domain)
         .post('/currency')
         .type('json')
         .send({
-			'alias': 'china',
-			'name': '',
-			'ex': {}
+			'usd': {
+				'name': 'United States Dollar',
+				'ex': {}
+		  	}
         })
         .end((err, res) => {
             expect(res.status).to.equal(400);
             done();
         })
     })
-
+	// 8
 	it('POST /currency endpoint alias is missing', (done) => {
         chai.request(domain)
         .post('/currency')
@@ -154,47 +159,49 @@ describe('forex_api_test_suite', (done) => {
             done();
         })
     })
-
+	// 9
 	it('POST /currency endpoint alias is not a string', (done) => {
         chai.request(domain)
         .post('/currency')
         .type('json')
         .send({
-			'alias': 1,
-			'name': 0,
+			'alias': 0,
+			'name': 'Saudi Arabian Riyadh',
 			'ex': {
-				'peso': 7.21,
-				'usd': 0.14,
-				'won': 168.85,
-				'yen': 15.45
-			  }
+				'peso': 0.47,
+				'usd': 0.0092,
+				'won': 10.93,
+				'yuan': 0.065
+			}
+		
         })
         .end((err, res) => {
             expect(res.status).to.equal(400);
             done();
         })
     })
-
-	it('POST /currency endpoint ex is empty', (done) => {
+	// 10
+	it('POST /currency endpoint alias is empty', (done) => {
         chai.request(domain)
         .post('/currency')
         .type('json')
         .send({
 			'alias': '',
-			'name': 'Philippine Peso',
-			'ex':{
-			  'usd': 0.020,
-			  'won': 23.39,
-			  'yen': 2.14,
-			  'yuan': 0.14
+			'name': 'Saudi Arabian Riyadh',
+			'ex': {
+				'peso': 0.47,
+				'usd': 0.0092,
+				'won': 10.93,
+				'yuan': 0.065
 			}
+		
         })
         .end((err, res) => {
             expect(res.status).to.equal(400);
             done();
         })
     })
-
+	// 11
 	it('POST /currency endpoint all fields are complete, duplicate values in alias', 
 		(done) => {
         chai.request(domain)
@@ -216,38 +223,40 @@ describe('forex_api_test_suite', (done) => {
             done();
         })
     })
-
+	// 12
 	it('POST /currency endpoint all fields are complete', (done) => {
 		chai.request(domain)
 		.post('/currency')
 		.type('json')
 		.send({
-			'alias': 'canada',
-			'name': 'Canadian Dollar',
-			'ex': {
-			  'peso': 41.07,
-			  'won': 952.88,
-			  'yen': 91.97,
-			  'yuan': 5.17
-			}
+			'peso': {
+				'name': 'Philippine Peso',
+				'ex':{
+				  'usd': 0.020,
+				  'won': 23.39,
+				  'yen': 2.14,
+				  'yuan': 0.14
+				}
+		  	}
 		})
 		.end((err, res) => {
-			expect(res.status).to.equal(200);
+			expect(res.status).to.equal(400);
 			done();
 	})
-
-	it('POST /currency endpoint is running', (done) => {
+	// 1
+	it('POST /currency endpoint is running', () => {
 		chai.request(domain)
 		.post('/currency')
         .type('json')
 		.send({
-            'alias': 'test',
-			'name': 'test',
-			'ex': {
-			  'peso': 0,
-			  'won': 0,
-			  'yen': 0,
-			  'yuan': 0
+			'usd': {
+				'name': 'United States Dollar',
+				'ex': {
+				  'peso': 50.73,
+				  'won': 1187.24,
+				  'yen': 108.63,
+				  'yuan': 7.03
+			  }
 			}
         })
 		.end((error, res) => {
@@ -256,5 +265,6 @@ describe('forex_api_test_suite', (done) => {
 			})
 		})	
 	})
+
 	
 })
